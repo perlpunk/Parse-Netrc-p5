@@ -31,9 +31,9 @@ netrc-entry:
 | netrc-machine-entry
 | netrc-default-entry
 
-netrc-machine-entry: / 'machine' SPACE+ / netrc-value comment? / WS+ / netrc-item-comment+ % / WS+ /
+netrc-machine-entry: / 'machine' SPACE+ / netrc-value comment? + netrc-item-comment+ % +
 
-netrc-default-entry: / 'default' SPACE+ / netrc-item-comment+ % / WS+ /
+netrc-default-entry: / 'default' SPACE+ / netrc-item-comment+ % +
 
 netrc-item-comment: netrc-item comment?
 
