@@ -36,7 +36,6 @@ sub got_macdef_entry {
 
 sub got_macdef_header {
     my ($self, $got) = @_;
-    warn __PACKAGE__.':'.__LINE__.": MACDEF header\n";
     my ($name, $comment) = @$got;
     $comment ||= {};
     my %res = (
@@ -50,16 +49,28 @@ sub got_macdef_header {
 
 sub got_netrc_machine_entry {
     my ($self, $got) = @_;
-    return $got;
-#    my ($name, @rest) = @$got;
-#    warn __PACKAGE__.':'.__LINE__.": NETRC machine $name\n";
-#    warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\$got], ['got']);
-#    warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\@rest], ['rest']);
-#    return @rest;
-#    my %res = map { %$_ } @$rest;
-#    $res{machine} = $name;
-#    warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\%res], ['res']);
-#    return \%res;
+    my ($name, @rest) = @$got;
+    warn __PACKAGE__.':'.__LINE__.": NETRC machine $name\n";
+    my %res = (
+        name => {
+            value => $name,
+        },
+    );
+
+    for my $item (@rest) {
+        # this is ugly
+        if (ref $item eq 'HASH') {
+            my ($key, $value) = %$item;
+            if ($key eq 'comment') {
+                $res{name}->{comment} = $value;
+            }
+        }
+        elsif (ref $item eq 'ARRAY') {
+            %res = (%res, map { %$_ } @$item);
+        }
+    }
+
+    push @{ $self->{data}->{machines} }, \%res;
 }
 
 sub got_netrc_default_entry {
@@ -108,13 +119,11 @@ sub got_macdef_commandline {
 
 sub got_macdef_commands {
     my ($self, $got) = @_;
-    warn __PACKAGE__.':'.__LINE__.": MACDEF COMMANDS\n";
     return $got;
 }
 
 sub got_macdef_body {
     my ($self, $got) = @_;
-    warn __PACKAGE__.':'.__LINE__.": MACDEF BODY \n";
     my ($netrc, $commands) = @$got;
     my %res = (
         netrc => $netrc,
