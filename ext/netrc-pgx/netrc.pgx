@@ -37,18 +37,15 @@ netrc-default-entry: / 'default' / comment? + netrc-item-comment+ % +
 
 netrc-item-comment: netrc-item comment?
 
-netrc-item:
-| netrc-login
-| netrc-password
-| netrc-account
+netrc-item: netrc-item-name / SPACE+ / netrc-value
 
-netrc-login: netrc-login-name / SPACE+ / netrc-value
-netrc-password: netrc-password-name / SPACE+ / netrc-value
-netrc-account: netrc-account-name / SPACE+ / netrc-value
+netrc-item-name:
+| netrc-item-name-quoted
+| netrc-item-name-plain
 
-netrc-login-name: / ( '"login"' | 'login' ) /
-netrc-password-name: / ( '"password"' | 'password' ) /
-netrc-account-name: / ( '"account"' | 'account' ) /
+netrc-item-name-quoted: / '"' ( 'login' | 'account' | 'password' ) '"' /
+
+netrc-item-name-plain: / ( 'login' | 'account' | 'password' ) /
 
 netrc-value:
 | quoted-value
