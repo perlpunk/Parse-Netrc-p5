@@ -27,7 +27,7 @@ sub read {
 
 sub parse {
     my ($self) = @_;
-    my $file = dist_file('Parse-Netrc', 'netrc.pgx');
+    my $file = dist_file('Parse-Netrc', 'netrc-pgx/netrc.pgx');
     open my $fh, "<", $file or die $!;
     my $grammar_text = do { local $/; <$fh> };
     close $fh;
