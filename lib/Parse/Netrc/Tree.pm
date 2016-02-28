@@ -75,12 +75,25 @@ sub got_netrc_machine_entry {
 
 sub got_netrc_default_entry {
     my ($self, $got) = @_;
-#    warn __PACKAGE__.':'.__LINE__.": NETRC default\n";
-#    warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\$got], ['got']);
-    return $got;
-#    my %res = map { %$_ } @$rest;
-#    warn __PACKAGE__.':'.__LINE__.$".Data::Dumper->Dump([\%res], ['res']);
-#    return \%res;
+    warn __PACKAGE__.':'.__LINE__.": NETRC default\n";
+
+    my %res;
+
+    for my $item (@$got) {
+        # this is ugly
+        if (ref $item eq 'HASH') {
+            my ($key, $value) = %$item;
+            if ($key eq 'comment') {
+                $res{name}->{comment} = $value;
+            }
+        }
+        elsif (ref $item eq 'ARRAY') {
+            %res = (%res, map { %$_ } @$item);
+        }
+    }
+
+    push @{ $self->{data}->{defaults} }, \%res;
+
 }
 
 sub got_netrc_item {

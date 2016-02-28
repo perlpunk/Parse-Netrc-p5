@@ -4,6 +4,7 @@ use warnings;
 use Test::More tests => 1;
 
 use Parse::Netrc;
+local $Data::Dumper::Sortkeys = 1;
 
 use FindBin '$Bin';
 my $netrc = Parse::Netrc->read(file => "$Bin/netrc.1");
