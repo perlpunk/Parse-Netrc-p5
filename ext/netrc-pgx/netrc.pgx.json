@@ -159,26 +159,17 @@
          }
       ]
    },
-   "netrc_account" : {
-      ".all" : [
-         {
-            ".ref" : "netrc_account_name"
-         },
-         {
-            ".rgx" : "\\ +"
-         },
-         {
-            ".ref" : "netrc_value"
-         }
-      ]
-   },
-   "netrc_account_name" : {
-      ".rgx" : "(\\\"account\\\"|account)"
-   },
    "netrc_default_entry" : {
       ".all" : [
          {
-            ".rgx" : "default\\ +"
+            ".rgx" : "default"
+         },
+         {
+            "+max" : 1,
+            ".ref" : "comment"
+         },
+         {
+            ".ref" : "__"
          },
          {
             ".all" : [
@@ -212,15 +203,15 @@
       ]
    },
    "netrc_item" : {
-      ".any" : [
+      ".all" : [
          {
-            ".ref" : "netrc_login"
+            ".ref" : "netrc_item_name"
          },
          {
-            ".ref" : "netrc_password"
+            ".rgx" : "\\ +"
          },
          {
-            ".ref" : "netrc_account"
+            ".ref" : "netrc_value"
          }
       ]
    },
@@ -235,21 +226,21 @@
          }
       ]
    },
-   "netrc_login" : {
-      ".all" : [
+   "netrc_item_name" : {
+      ".any" : [
          {
-            ".ref" : "netrc_login_name"
+            ".ref" : "netrc_item_name_quoted"
          },
          {
-            ".rgx" : "\\ +"
-         },
-         {
-            ".ref" : "netrc_value"
+            ".ref" : "netrc_item_name_plain"
          }
       ]
    },
-   "netrc_login_name" : {
-      ".rgx" : "(\\\"login\\\"|login)"
+   "netrc_item_name_plain" : {
+      ".rgx" : "(login|account|password)"
+   },
+   "netrc_item_name_quoted" : {
+      ".rgx" : "\\\"(login|account|password)\\\""
    },
    "netrc_machine_entry" : {
       ".all" : [
@@ -287,22 +278,6 @@
          }
       ]
    },
-   "netrc_password" : {
-      ".all" : [
-         {
-            ".ref" : "netrc_password_name"
-         },
-         {
-            ".rgx" : "\\ +"
-         },
-         {
-            ".ref" : "netrc_value"
-         }
-      ]
-   },
-   "netrc_password_name" : {
-      ".rgx" : "(\\\"password\\\"|password)"
-   },
    "netrc_value" : {
       ".any" : [
          {
@@ -317,6 +292,6 @@
       ".rgx" : "(\\S+)"
    },
    "quoted_value" : {
-      ".rgx" : "\\\"(\\S+)\\\""
+      ".rgx" : "\\\"([^\"]+)\\\""
    }
 }

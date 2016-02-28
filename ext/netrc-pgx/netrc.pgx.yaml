@@ -75,16 +75,12 @@ netrc:
   - +max: 1
     +min: 1
     .ref: EOL
-netrc_account:
-  .all:
-  - .ref: netrc_account_name
-  - .rgx: \ +
-  - .ref: netrc_value
-netrc_account_name:
-  .rgx: (\"account\"|account)
 netrc_default_entry:
   .all:
-  - .rgx: default\ +
+  - .rgx: default
+  - +max: 1
+    .ref: comment
+  - .ref: __
   - .all:
     - .ref: netrc_item_comment
     - +min: 0
@@ -97,22 +93,23 @@ netrc_entry:
   - .ref: netrc_machine_entry
   - .ref: netrc_default_entry
 netrc_item:
-  .any:
-  - .ref: netrc_login
-  - .ref: netrc_password
-  - .ref: netrc_account
+  .all:
+  - .ref: netrc_item_name
+  - .rgx: \ +
+  - .ref: netrc_value
 netrc_item_comment:
   .all:
   - .ref: netrc_item
   - +max: 1
     .ref: comment
-netrc_login:
-  .all:
-  - .ref: netrc_login_name
-  - .rgx: \ +
-  - .ref: netrc_value
-netrc_login_name:
-  .rgx: (\"login\"|login)
+netrc_item_name:
+  .any:
+  - .ref: netrc_item_name_quoted
+  - .ref: netrc_item_name_plain
+netrc_item_name_plain:
+  .rgx: (login|account|password)
+netrc_item_name_quoted:
+  .rgx: \"(login|account|password)\"
 netrc_machine_entry:
   .all:
   - .rgx: machine\ +
@@ -127,13 +124,6 @@ netrc_machine_entry:
       .all:
       - .ref: __
       - .ref: netrc_item_comment
-netrc_password:
-  .all:
-  - .ref: netrc_password_name
-  - .rgx: \ +
-  - .ref: netrc_value
-netrc_password_name:
-  .rgx: (\"password\"|password)
 netrc_value:
   .any:
   - .ref: quoted_value
@@ -141,4 +131,4 @@ netrc_value:
 plain_value:
   .rgx: (\S+)
 quoted_value:
-  .rgx: \"(\S+)\"
+  .rgx: \"([^"]+)\"

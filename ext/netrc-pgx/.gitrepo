@@ -6,6 +6,6 @@
 [subrepo]
 	remote = git@github.com:perlpunk/netrc-pgx
 	branch = master
-	commit = 951150c0dafe265e4c354c548abc9a21ad3d85b3
-	parent = fa81e07e9a7ab3231fcc95fff0c58df845a07c77
+	commit = b2d85669577eee60f4c6592bd33e30ecb57be714
+	parent = 8f83ac8551ae1913cc2060de506e01a2bc0df577
 	cmdver = 0.3.0
