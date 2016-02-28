@@ -51,7 +51,7 @@ netrc-value:
 | quoted-value
 | plain-value
 
-quoted-value: / '"' ( NS+ ) '"' /
+quoted-value: / '"' ( [^"]+ ) '"' /
 plain-value: / ( NS+ ) /
 
 end: / ( EOL+ | '' ) /
