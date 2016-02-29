@@ -2,10 +2,9 @@ use strict;
 use warnings;
 package Parse::Netrc;
 
-use Parse::Netrc::Tree;
-use Pegex::Grammar;
 use Pegex::Parser;
-use File::Share qw/ dist_file /;
+use Parse::Netrc::Grammar;
+use Parse::Netrc::Tree;
 
 use Mo;
 has tree => ();
@@ -27,14 +26,9 @@ sub read {
 
 sub parse {
     my ($self) = @_;
-    my $file = dist_file('Parse-Netrc', 'netrc-pgx/netrc.pgx');
-    open my $fh, "<", $file or die $!;
-    my $grammar_text = do { local $/; <$fh> };
-    close $fh;
 
-    my $grammar = Pegex::Grammar->new(text => $grammar_text);
     my $parser = Pegex::Parser->new(
-        grammar => $grammar,
+        grammar => Parse::Netrc::Grammar->new,
         receiver => Parse::Netrc::Tree->new,
         debug => DEBUG,
     );
