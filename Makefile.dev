@@ -1,0 +1,2 @@
+grammar:
+	perl -Ilib -MParse::Netrc::Grammar=compile
