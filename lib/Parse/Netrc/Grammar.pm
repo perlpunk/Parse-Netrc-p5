@@ -1,6 +1,6 @@
 package Parse::Netrc::Grammar;
 
-use TestML::Base;
+use Pegex::Base;
 extends 'Pegex::Grammar';
 
 use constant file => 'share/netrc-pgx/netrc.pgx';
